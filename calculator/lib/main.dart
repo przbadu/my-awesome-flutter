@@ -15,26 +15,46 @@ class Calculator extends StatefulWidget {
 class _CalculatorState extends State<Calculator> {
   String result = '0';
   List<String> history = [];
+  List<String> operators = ['+', '-', '*', '/', '%'];
 
   void calculate(String input) {
     MyCalculator calculator = MyCalculator();
+    // fix expression symbol for multiplication
     input = input == 'x' ? '*' : input;
-    switch (input) {
-      case 'C':
-        result = '0';
+    // don't allow multiple operators between operands
+    for (var o in operators) {
+      if ((result.endsWith(o)) && operators.contains(input)) {
+        input = '';
         break;
-      case 'del':
-        result = result.substring(0, result.length - 1);
+      } else if (result.startsWith('0') && operators.contains(input)) {
+        input = '0';
         break;
-      case '=':
-        history.add(result);
-        result = calculator.calculate(result);
-        break;
-      default:
-        if (result.startsWith('0'))
-          result = input;
-        else
-          result += input;
+      }
+    }
+    // don't allow duplicate dots(.)
+    if (result.endsWith('.') && input == '.') input = '';
+
+    try {
+      switch (input) {
+        case 'C':
+          result = '0';
+          break;
+        case 'del':
+          if (!result.startsWith('0'))
+            result = result.substring(0, result.length - 1);
+          break;
+        case '=':
+          history.add(result);
+          result = calculator.calculate(result);
+          break;
+        default:
+          if (result.startsWith('0') || result == '')
+            result = input;
+          else
+            result += input;
+      }
+    } catch (e) {
+      print(e);
     }
     setState(() {});
   }
