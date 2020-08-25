@@ -27,6 +27,7 @@ class _CalculatorState extends State<Calculator> {
         result = result.substring(0, result.length - 1);
         break;
       case '=':
+        history.add(result);
         result = calculator.calculate(result);
         break;
       default:
@@ -59,7 +60,7 @@ class _CalculatorState extends State<Calculator> {
                         Container(
                           child: Column(
                             children: [
-                              SizedBox(height: 10),
+                              // render list of history in listview
                               Text('2 x 50 x 3'),
                             ],
                           ),
@@ -84,8 +85,8 @@ class _CalculatorState extends State<Calculator> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           _buildButton(text: 'C'),
-                          _buildButton(text: '%'),
                           _buildButton(text: 'del'),
+                          _buildButton(text: '%'),
                           _buildButton(text: '/', color: Color(0xFFDD6A6C)),
                         ],
                       ),
