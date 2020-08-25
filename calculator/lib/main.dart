@@ -23,6 +23,9 @@ class _CalculatorState extends State<Calculator> {
       case 'C':
         result = '0';
         break;
+      case 'del':
+        result = result.substring(0, result.length - 1);
+        break;
       case '=':
         result = calculator.calculate(result);
         break;
@@ -81,8 +84,8 @@ class _CalculatorState extends State<Calculator> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           _buildButton(text: 'C'),
-                          _buildButton(text: '+/-'),
                           _buildButton(text: '%'),
+                          _buildButton(text: 'del'),
                           _buildButton(text: '/', color: Color(0xFFDD6A6C)),
                         ],
                       ),
@@ -133,9 +136,10 @@ class _CalculatorState extends State<Calculator> {
     );
   }
 
-  Widget _buildButton({String text, Color color}) {
+  Widget _buildButton({String text, Icon icon, Color color}) {
     return Button(
       text: text,
+      icon: icon,
       color: color,
       onPressed: () => calculate(text),
     );

@@ -7,8 +7,10 @@ class Button extends StatelessWidget {
     this.elevation: 0,
     this.onPressed,
     this.backgroundColor,
+    this.icon,
   });
   final String text;
+  final Icon icon;
   final Color color;
   final Color backgroundColor;
   final double elevation;
