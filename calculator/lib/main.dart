@@ -1,12 +1,40 @@
 import 'package:calculator/button.dart';
 import 'package:calculator/constant.dart';
+import 'package:calculator/my_calculator.dart';
 import 'package:flutter/material.dart';
 
 void main() {
   runApp(Calculator());
 }
 
-class Calculator extends StatelessWidget {
+class Calculator extends StatefulWidget {
+  @override
+  _CalculatorState createState() => _CalculatorState();
+}
+
+class _CalculatorState extends State<Calculator> {
+  String result = '0';
+  List<String> history = [];
+
+  void calculate(String input) {
+    MyCalculator calculator = MyCalculator();
+    input = input == 'x' ? '*' : input;
+    switch (input) {
+      case 'C':
+        result = '0';
+        break;
+      case '=':
+        result = calculator.calculate(result);
+        break;
+      default:
+        if (result.startsWith('0'))
+          result = input;
+        else
+          result += input;
+    }
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -35,7 +63,7 @@ class Calculator extends StatelessWidget {
                         ),
                         SizedBox(height: 20),
                         Text(
-                          '300',
+                          result,
                           style: kResultText,
                         ),
                         Divider(
@@ -109,6 +137,7 @@ class Calculator extends StatelessWidget {
     return Button(
       text: text,
       color: color,
+      onPressed: () => calculate(text),
     );
   }
 
@@ -118,6 +147,7 @@ class Calculator extends StatelessWidget {
       backgroundColor: Color(0xFFDD6A6C),
       color: Colors.white,
       elevation: 3,
+      onPressed: () => calculate('='),
     );
   }
 }

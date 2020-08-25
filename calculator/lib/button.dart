@@ -17,11 +17,11 @@ class Button extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialButton(
-      onPressed: () {},
+      onPressed: onPressed,
       child: Text(
         text,
         style: TextStyle(
-          fontSize: 16,
+          fontSize: 22,
           fontWeight: FontWeight.w400,
           color: color,
         ),
