@@ -38,13 +38,14 @@ class _CalculatorState extends State<Calculator> {
       switch (input) {
         case 'C':
           result = '0';
+          history = [];
           break;
         case 'del':
           if (!result.startsWith('0'))
             result = result.substring(0, result.length - 1);
           break;
         case '=':
-          history.add(result);
+          history.add(result.toString());
           result = calculator.calculate(result);
           break;
         default:
@@ -56,6 +57,8 @@ class _CalculatorState extends State<Calculator> {
     } catch (e) {
       print(e);
     }
+
+    print(history);
     setState(() {});
   }
 
@@ -73,27 +76,38 @@ class _CalculatorState extends State<Calculator> {
                 Expanded(
                   child: Container(
                     alignment: Alignment.bottomRight,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Container(
-                          child: Column(
-                            children: [
-                              // render list of history in listview
-                              Text('2 x 50 x 3'),
-                            ],
+                    child: SingleChildScrollView(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: history.length > 5 ? 5 : history.length,
+                            itemBuilder: (context, index) {
+                              return Container(
+                                margin: EdgeInsets.symmetric(vertical: 5),
+                                alignment: Alignment.centerRight,
+                                child: Text(
+                                  history[index],
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    color: Color(0xFFDD6A6C),
+                                  ),
+                                ),
+                              );
+                            },
                           ),
-                        ),
-                        SizedBox(height: 20),
-                        Text(
-                          result,
-                          style: kResultText,
-                        ),
-                        Divider(
-                          color: Colors.black45,
-                        )
-                      ],
+                          SizedBox(height: 20),
+                          Text(
+                            result,
+                            style: kResultText,
+                          ),
+                          Divider(
+                            color: Colors.black45,
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -174,5 +188,13 @@ class _CalculatorState extends State<Calculator> {
       elevation: 3,
       onPressed: () => calculate('='),
     );
+  }
+
+  List<Widget> _buildHistory(List<String> history) {
+    List<Text> items = [];
+    for (var item in history) {
+      items.add(Text(item));
+    }
+    return items;
   }
 }
