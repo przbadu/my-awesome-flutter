@@ -11,8 +11,6 @@ This repo will contains list of flutter apps that I will build overtime. Some of
 - form inputs with validations
 - tic tac toe
 
-### Test fingerprint authentication in android device
-
 ### How to enable fingerprint in android emulator
 
 Reference: https://developer.android.com/about/versions/marshmallow/android-6.0.html
